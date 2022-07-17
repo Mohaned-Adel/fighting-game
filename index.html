@@ -2,9 +2,29 @@
 <html>
   <head>
     <title>Fighting Game</title>
+    <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
-    <canvas></canvas>
+    <!-- Red container div -->
+    <div class="container">
+      <!-- smaller red container div -->
+      <div class="healthBar">
+        <!-- Player Health -->
+        <div class="playerBar">
+          <div class="playerHealthBack"></div>
+          <div id="playerHealth"></div>
+        </div>
+        <!-- Timer -->
+        <div class="timer"></div>
+        <!-- Enemy Health -->
+        <div class="enemyBar">
+          <div class="enemyHealth"></div>
+          <div id="enemyHealth"></div>
+        </div>
+      </div>
+      <canvas></canvas>
+    </div>
+
     <script src="js/app.js"></script>
   </body>
 </html>
