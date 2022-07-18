@@ -62,8 +62,12 @@ const player = new Fighter({
     },
     fall: {
       imageSrc: "../assets/samuraiMack/Fall.png",
-      frameMax: 2
-    }
+      frameMax: 2,
+    },
+    attack1: {
+      imageSrc: "../assets/samuraiMack/Attack1.png",
+      frameMax: 6,
+    },
   },
 });
 
@@ -80,6 +84,35 @@ const enemy = new Fighter({
   offset: {
     x: -50,
     y: 0,
+  },
+  imageSrc: "../assets/kenji/Idle.png",
+  frameMax: 4,
+  scale: 2.5,
+  offset: {
+    x: 215,
+    y: 167,
+  },
+  sprites: {
+    idle: {
+      imageSrc: "../assets/kenji/Idle.png",
+      frameMax: 4,
+    },
+    run: {
+      imageSrc: "../assets/kenji/Run.png",
+      frameMax: 8,
+    },
+    jump: {
+      imageSrc: "../assets/kenji/Jump.png",
+      frameMax: 2,
+    },
+    fall: {
+      imageSrc: "../assets/kenji/Fall.png",
+      frameMax: 2,
+    },
+    attack1: {
+      imageSrc: "../assets/kenji/Attack1.png",
+      frameMax: 4,
+    },
   },
 });
 
@@ -114,7 +147,7 @@ function animate() {
   shop.update();
 
   player.update();
-  // enemy.update();
+  enemy.update();
 
   player.velocity.x = 0;
   enemy.velocity.x = 0;
@@ -136,16 +169,30 @@ function animate() {
   }
 
   //falling
-  if(player.velocity.y > 0) {
-    player.switchSprites('fall')
+  if (player.velocity.y > 0) {
+    player.switchSprites("fall");
   }
 
   // Enemy movement
   if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft") {
     enemy.velocity.x = -5;
+    enemy.switchSprites("run")
   } else if (keys.ArrowRight.pressed && enemy.lastKey === "ArrowRight") {
     enemy.velocity.x = 5;
+    enemy.switchSprites("run")
+  } else{
+    enemy.switchSprites('idle')
   }
+
+    //jumping
+    if (enemy.velocity.y < 0) {
+      enemy.switchSprites("jump");
+    }
+  
+    //falling
+    if (enemy.velocity.y > 0) {
+      enemy.switchSprites("fall");
+    }
 
   // detect for collision
 
