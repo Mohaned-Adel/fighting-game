@@ -74,8 +74,8 @@ const player = new Fighter({
     },
     death: {
       imageSrc: "../assets/samuraiMack/Death.png",
-      frameMax: 6
-    }
+      frameMax: 6,
+    },
   },
   attackBox: {
     offset: {
@@ -135,8 +135,8 @@ const enemy = new Fighter({
     },
     death: {
       imageSrc: "../assets/kenji/Death.png",
-      frameMax: 7
-    }
+      frameMax: 7,
+    },
   },
   attackBox: {
     offset: {
@@ -276,37 +276,43 @@ function animate() {
 animate();
 
 window.addEventListener("keydown", (event) => {
-  switch (event.key) {
-    //player keys
-    case "d":
-      keys.d.pressed = true;
-      player.lastKey = "d";
-      break;
-    case "a":
-      keys.a.pressed = true;
-      player.lastKey = "a";
-      break;
-    case "w":
-      player.velocity.y = -20;
-      break;
-    case " ":
-      player.attack();
-      break;
-    // enemy movement
-    case "ArrowRight":
-      keys.ArrowRight.pressed = true;
-      enemy.lastKey = "ArrowRight";
-      break;
-    case "ArrowLeft":
-      keys.ArrowLeft.pressed = true;
-      enemy.lastKey = "ArrowLeft";
-      break;
-    case "ArrowUp":
-      enemy.velocity.y = -20;
-      break;
-    case "ArrowDown":
-      enemy.attack();
-      break;
+  if (!player.dead) {
+    switch (event.key) {
+      //player keys
+      case "d":
+        keys.d.pressed = true;
+        player.lastKey = "d";
+        break;
+      case "a":
+        keys.a.pressed = true;
+        player.lastKey = "a";
+        break;
+      case "w":
+        player.velocity.y = -20;
+        break;
+      case " ":
+        player.attack();
+        break;
+    }
+  }
+  if (!enemy.dead) {
+    switch (event.key) {
+      // enemy movement
+      case "ArrowRight":
+        keys.ArrowRight.pressed = true;
+        enemy.lastKey = "ArrowRight";
+        break;
+      case "ArrowLeft":
+        keys.ArrowLeft.pressed = true;
+        enemy.lastKey = "ArrowLeft";
+        break;
+      case "ArrowUp":
+        enemy.velocity.y = -20;
+        break;
+      case "ArrowDown":
+        enemy.attack();
+        break;
+    }
   }
 });
 
