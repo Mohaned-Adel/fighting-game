@@ -69,6 +69,14 @@ const player = new Fighter({
       frameMax: 6,
     },
   },
+  attackBox: {
+    offset: {
+      x: 100,
+      y: 50,
+    },
+    width: 160,
+    height: 50,
+  },
 });
 
 const enemy = new Fighter({
@@ -113,6 +121,14 @@ const enemy = new Fighter({
       imageSrc: "../assets/kenji/Attack1.png",
       frameMax: 4,
     },
+  },
+  attackBox: {
+    offset: {
+      x: -170,
+      y: 50,
+    },
+    width: 170,
+    height: 50,
   },
 });
 
@@ -176,23 +192,23 @@ function animate() {
   // Enemy movement
   if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft") {
     enemy.velocity.x = -5;
-    enemy.switchSprites("run")
+    enemy.switchSprites("run");
   } else if (keys.ArrowRight.pressed && enemy.lastKey === "ArrowRight") {
     enemy.velocity.x = 5;
-    enemy.switchSprites("run")
-  } else{
-    enemy.switchSprites('idle')
+    enemy.switchSprites("run");
+  } else {
+    enemy.switchSprites("idle");
   }
 
-    //jumping
-    if (enemy.velocity.y < 0) {
-      enemy.switchSprites("jump");
-    }
-  
-    //falling
-    if (enemy.velocity.y > 0) {
-      enemy.switchSprites("fall");
-    }
+  //jumping
+  if (enemy.velocity.y < 0) {
+    enemy.switchSprites("jump");
+  }
+
+  //falling
+  if (enemy.velocity.y > 0) {
+    enemy.switchSprites("fall");
+  }
 
   // detect for collision
 
@@ -202,11 +218,17 @@ function animate() {
       rectangular1: player,
       rectangular2: enemy,
     }) &&
-    player.isAttacking
+    player.isAttacking &&
+    player.framesCurrent === 4
   ) {
     player.isAttacking = false;
     enemy.health -= 20;
     document.querySelector("#enemyHealth").style.width = enemy.health + "%";
+  }
+
+  // If player misses
+  if (player.isAttacking && player.framesCurrent === 4) {
+    player.isAttacking = false;
   }
 
   // enemy attacking
@@ -215,11 +237,18 @@ function animate() {
       rectangular1: enemy,
       rectangular2: player,
     }) &&
-    enemy.isAttacking
+    enemy.isAttacking &&
+    enemy.isAttacking &&
+    enemy.framesCurrent === 2
   ) {
     enemy.isAttacking = false;
     player.health -= 20;
     document.querySelector("#playerHealth").style.width = player.health + "%";
+  }
+
+  // If player misses
+  if (enemy.isAttacking && enemy.framesCurrent === 2) {
+    enemy.isAttacking = false;
   }
 
   // end game based on health
